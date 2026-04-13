@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # SaaS Template — Samka.ai
 
 Boilerplate completo para micro SaaS europeu com Next.js 14, Supabase, Stripe e Resend.
@@ -86,6 +85,3 @@ npm run dev
 3. Substitui o conteúdo de `app/dashboard/page.tsx` com o teu produto
 4. Adiciona as tuas tabelas em `supabase/migrations/`
 5. Cria as tuas API routes em `app/api/`
-=======
-# saas-template
->>>>>>> b7b168417a20c0a397827be1cf3ea4548b60e105
