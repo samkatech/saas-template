@@ -1,67 +1,14 @@
 'use client'
-
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import type { Subscription } from '@/types'
-
-export default function CurrentPlan({
-  planoAtual,
-  subscription,
-  stripeCustomerId,
-}: {
-  planoAtual: string
-  subscription: Subscription | null
-  stripeCustomerId: string | null
-}) {
-  const [loading, setLoading] = useState(false)
-
-  async function abrirPortal() {
-    setLoading(true)
-    try {
-      const res = await fetch('/api/stripe/portal', { method: 'POST' })
-      const { url } = await res.json()
-      if (url) window.location.href = url
-    } finally {
-      setLoading(false)
-    }
-  }
-
+export default function CurrentPlan({ planoAtual }: { planoAtual: string; subscription?: any; stripeCustomerId?: any }) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-base">Plano atual</CardTitle>
-      </CardHeader>
-      <CardContent className="flex items-center justify-between">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <span className="font-semibold capitalize">{planoAtual}</span>
-            {subscription?.status === 'active' && (
-              <Badge variant="outline" className="text-green-600 border-green-600 text-xs">Ativo</Badge>
-            )}
-            {subscription?.status === 'trialing' && (
-              <Badge variant="outline" className="text-blue-600 border-blue-600 text-xs">Trial</Badge>
-            )}
-            {subscription?.status === 'past_due' && (
-              <Badge variant="destructive" className="text-xs">Pagamento em atraso</Badge>
-            )}
-          </div>
-          {subscription?.current_period_end && (
-            <p className="text-sm text-muted-foreground">
-              Renova em {new Date(subscription.current_period_end).toLocaleDateString('pt-PT')}
-            </p>
-          )}
-          {!subscription && planoAtual === 'free' && (
-            <p className="text-sm text-muted-foreground">Sem subscrição ativa</p>
-          )}
+    <div style={{background:'white',border:'1px solid #e5e7eb',borderRadius:'12px',padding:'1.25rem',marginBottom:'1.5rem'}}>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <div>
+          <div style={{fontWeight:'600',textTransform:'capitalize'}}>{planoAtual}</div>
+          <div style={{fontSize:'0.875rem',color:'#6b7280',marginTop:'0.25rem'}}>Plano atual</div>
         </div>
-        {stripeCustomerId && subscription && (
-          <Button variant="outline" size="sm" onClick={abrirPortal} disabled={loading}>
-            {loading ? 'A abrir...' : 'Gerir subscrição'}
-          </Button>
-        )}
-      </CardContent>
-    </Card>
+        <span style={{background:'#f0fdf4',color:'#16a34a',padding:'0.25rem 0.75rem',borderRadius:'20px',fontSize:'0.75rem',fontWeight:'600'}}>Ativo</span>
+      </div>
+    </div>
   )
 }
